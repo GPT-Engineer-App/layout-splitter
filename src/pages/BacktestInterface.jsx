@@ -3,13 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 
 // Mock data for backtest records
 const backtestRecords = [
-  { id: 1, name: "Backtest 1", date: "2023-03-01" },
-  { id: 2, name: "Backtest 2", date: "2023-03-02" },
-  { id: 3, name: "Backtest 3", date: "2023-03-03" },
+  { id: 1, name: "Backtest 1", date: "2023-03-01", strategy: "Moving Average Crossover" },
+  { id: 2, name: "Backtest 2", date: "2023-03-02", strategy: "RSI Oscillator" },
+  { id: 3, name: "Backtest 3", date: "2023-03-03", strategy: "MACD Divergence" },
+  { id: 4, name: "Backtest 4", date: "2023-03-04", strategy: "Bollinger Bands" },
+  { id: 5, name: "Backtest 5", date: "2023-03-05", strategy: "Fibonacci Retracement" },
 ];
 
 const BacktestInterface = () => {
@@ -29,16 +33,21 @@ const BacktestInterface = () => {
       <Collapsible open={isLeftPanelOpen} onOpenChange={setIsLeftPanelOpen} className="w-64 border-r">
         <div className="p-4">
           <h2 className="text-lg font-semibold mb-4">Backtest Records</h2>
-          {backtestRecords.map((record) => (
-            <Button
-              key={record.id}
-              variant="ghost"
-              className="w-full justify-start mb-2"
-              onClick={() => handleBacktestSelect(record.id)}
-            >
-              {record.name}
-            </Button>
-          ))}
+          <ScrollArea className="h-[calc(100vh-8rem)]">
+            {backtestRecords.map((record) => (
+              <Button
+                key={record.id}
+                variant="ghost"
+                className="w-full justify-start mb-2 text-left"
+                onClick={() => handleBacktestSelect(record.id)}
+              >
+                <div>
+                  <div className="font-medium">{record.name}</div>
+                  <div className="text-sm text-muted-foreground">{record.date}</div>
+                </div>
+              </Button>
+            ))}
+          </ScrollArea>
         </div>
         <CollapsibleTrigger asChild>
           <Button variant="ghost" size="icon" className="absolute top-1/2 -right-4">
@@ -58,10 +67,12 @@ const BacktestInterface = () => {
 };
 
 const BacktestDetails = ({ backtestId }) => {
+  const selectedBacktest = backtestRecords.find(record => record.id === backtestId);
+
   return (
     <Tabs defaultValue="performance" className="w-full">
-      <TabsList>
-        <TabsTrigger value="performance">Account Performance</TabsTrigger>
+      <TabsList className="grid w-full grid-cols-5">
+        <TabsTrigger value="performance">Performance</TabsTrigger>
         <TabsTrigger value="kline">K-line Chart</TabsTrigger>
         <TabsTrigger value="transactions">Buy/Sell Records</TabsTrigger>
         <TabsTrigger value="orders">Order Records</TabsTrigger>
@@ -73,7 +84,20 @@ const BacktestDetails = ({ backtestId }) => {
             <CardTitle>Account Performance</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>Performance metrics and charts for Backtest {backtestId}</p>
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-lg font-medium">Backtest Details</h3>
+                <p>Name: {selectedBacktest.name}</p>
+                <p>Date: {selectedBacktest.date}</p>
+                <p>Strategy: {selectedBacktest.strategy}</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-medium">Performance Metrics</h3>
+                <p>Total Return: 15.2%</p>
+                <p>Sharpe Ratio: 1.8</p>
+                <p>Max Drawdown: 8.5%</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </TabsContent>
@@ -83,7 +107,7 @@ const BacktestDetails = ({ backtestId }) => {
             <CardTitle>K-line Chart</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>K-line chart for Backtest {backtestId}</p>
+            <p>K-line chart for {selectedBacktest.name} would be displayed here.</p>
           </CardContent>
         </Card>
       </TabsContent>
@@ -93,7 +117,33 @@ const BacktestDetails = ({ backtestId }) => {
             <CardTitle>Buy/Sell Records</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>Buy/Sell transactions for Backtest {backtestId}</p>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Asset</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead>Quantity</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>2023-03-01</TableCell>
+                  <TableCell>Buy</TableCell>
+                  <TableCell>BTC</TableCell>
+                  <TableCell>$50,000</TableCell>
+                  <TableCell>0.5</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>2023-03-02</TableCell>
+                  <TableCell>Sell</TableCell>
+                  <TableCell>BTC</TableCell>
+                  <TableCell>$52,000</TableCell>
+                  <TableCell>0.3</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       </TabsContent>
@@ -103,7 +153,36 @@ const BacktestDetails = ({ backtestId }) => {
             <CardTitle>Order Records</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>Order records for Backtest {backtestId}</p>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Asset</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead>Quantity</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>2023-03-01</TableCell>
+                  <TableCell>Limit Buy</TableCell>
+                  <TableCell>ETH</TableCell>
+                  <TableCell>$3,000</TableCell>
+                  <TableCell>2</TableCell>
+                  <TableCell>Filled</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>2023-03-02</TableCell>
+                  <TableCell>Stop Loss</TableCell>
+                  <TableCell>ETH</TableCell>
+                  <TableCell>$2,800</TableCell>
+                  <TableCell>1</TableCell>
+                  <TableCell>Triggered</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       </TabsContent>
@@ -113,7 +192,18 @@ const BacktestDetails = ({ backtestId }) => {
             <CardTitle>Logs</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>Logs for Backtest {backtestId}</p>
+            <ScrollArea className="h-[300px] w-full rounded-md border p-4">
+              <pre>
+                {`[2023-03-01 09:00:00] Strategy initialized
+[2023-03-01 09:15:00] Buy signal detected for BTC
+[2023-03-01 09:15:05] Order placed: Buy 0.5 BTC at $50,000
+[2023-03-01 09:15:10] Order filled
+[2023-03-02 10:30:00] Sell signal detected for BTC
+[2023-03-02 10:30:05] Order placed: Sell 0.3 BTC at $52,000
+[2023-03-02 10:30:10] Order filled
+[2023-03-03 17:00:00] Backtest completed`}
+              </pre>
+            </ScrollArea>
           </CardContent>
         </Card>
       </TabsContent>
