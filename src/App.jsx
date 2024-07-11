@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Home, LineChart } from "lucide-react";
+import { Home } from "lucide-react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Layout from "./layouts/navbar";
 import Index from "./pages/Index";
@@ -13,11 +13,6 @@ export const navItems = [
     title: "Home",
     to: "/",
     icon: <Home className="h-4 w-4" />,
-  },
-  {
-    title: "Backtest",
-    to: "/backtest",
-    icon: <LineChart className="h-4 w-4" />,
   },
 ];
 
