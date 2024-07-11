@@ -14,6 +14,11 @@ const backtestRecords = [
   { id: 3, name: "Backtest 3", date: "2023-03-03", strategy: "MACD Divergence" },
   { id: 4, name: "Backtest 4", date: "2023-03-04", strategy: "Bollinger Bands" },
   { id: 5, name: "Backtest 5", date: "2023-03-05", strategy: "Fibonacci Retracement" },
+  { id: 6, name: "Backtest 6", date: "2023-03-06", strategy: "Ichimoku Cloud" },
+  { id: 7, name: "Backtest 7", date: "2023-03-07", strategy: "Stochastic Oscillator" },
+  { id: 8, name: "Backtest 8", date: "2023-03-08", strategy: "Parabolic SAR" },
+  { id: 9, name: "Backtest 9", date: "2023-03-09", strategy: "ADX Indicator" },
+  { id: 10, name: "Backtest 10", date: "2023-03-10", strategy: "Volume Weighted Average Price" },
 ];
 
 const BacktestInterface = () => {
@@ -142,6 +147,20 @@ const BacktestDetails = ({ backtestId }) => {
                   <TableCell>$52,000</TableCell>
                   <TableCell>0.3</TableCell>
                 </TableRow>
+                <TableRow>
+                  <TableCell>2023-03-03</TableCell>
+                  <TableCell>Buy</TableCell>
+                  <TableCell>ETH</TableCell>
+                  <TableCell>$3,000</TableCell>
+                  <TableCell>2</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>2023-03-04</TableCell>
+                  <TableCell>Sell</TableCell>
+                  <TableCell>ETH</TableCell>
+                  <TableCell>$3,200</TableCell>
+                  <TableCell>1.5</TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </CardContent>
@@ -181,6 +200,22 @@ const BacktestDetails = ({ backtestId }) => {
                   <TableCell>1</TableCell>
                   <TableCell>Triggered</TableCell>
                 </TableRow>
+                <TableRow>
+                  <TableCell>2023-03-03</TableCell>
+                  <TableCell>Market Buy</TableCell>
+                  <TableCell>BTC</TableCell>
+                  <TableCell>$51,000</TableCell>
+                  <TableCell>0.4</TableCell>
+                  <TableCell>Filled</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>2023-03-04</TableCell>
+                  <TableCell>Limit Sell</TableCell>
+                  <TableCell>BTC</TableCell>
+                  <TableCell>$53,000</TableCell>
+                  <TableCell>0.2</TableCell>
+                  <TableCell>Pending</TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </CardContent>
@@ -201,7 +236,15 @@ const BacktestDetails = ({ backtestId }) => {
 [2023-03-02 10:30:00] Sell signal detected for BTC
 [2023-03-02 10:30:05] Order placed: Sell 0.3 BTC at $52,000
 [2023-03-02 10:30:10] Order filled
-[2023-03-03 17:00:00] Backtest completed`}
+[2023-03-03 17:00:00] Backtest completed
+[2023-03-04 09:00:00] Strategy initialized
+[2023-03-04 09:15:00] Buy signal detected for ETH
+[2023-03-04 09:15:05] Order placed: Buy 2 ETH at $3,000
+[2023-03-04 09:15:10] Order filled
+[2023-03-05 10:30:00] Sell signal detected for ETH
+[2023-03-05 10:30:05] Order placed: Sell 1.5 ETH at $3,200
+[2023-03-05 10:30:10] Order filled
+[2023-03-06 17:00:00] Backtest completed`}
               </pre>
             </ScrollArea>
           </CardContent>
