@@ -6,6 +6,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ChevronRight, ChevronLeft } from "lucide-react";
+import { useParams } from 'react-router-dom';
 
 // Mock data for backtest records
 const backtestRecords = [
@@ -22,15 +23,12 @@ const backtestRecords = [
 ];
 
 const BacktestInterface = () => {
+  const { id } = useParams();
   const [isLeftPanelOpen, setIsLeftPanelOpen] = useState(true);
-  const [selectedBacktest, setSelectedBacktest] = useState(null);
+  const selectedBacktest = backtestRecords.find(record => record.id === parseInt(id));
 
   const toggleLeftPanel = () => {
     setIsLeftPanelOpen(!isLeftPanelOpen);
-  };
-
-  const handleBacktestSelect = (id) => {
-    setSelectedBacktest(id);
   };
 
   return (
@@ -44,7 +42,7 @@ const BacktestInterface = () => {
                 key={record.id}
                 variant="ghost"
                 className="w-full justify-start mb-2 text-left"
-                onClick={() => handleBacktestSelect(record.id)}
+                onClick={() => window.location.href = `/backtest/${record.id}`}
               >
                 <div>
                   <div className="font-medium">{record.name}</div>
@@ -62,7 +60,7 @@ const BacktestInterface = () => {
       </Collapsible>
       <CollapsibleContent className="flex-grow p-6">
         {selectedBacktest ? (
-          <BacktestDetails backtestId={selectedBacktest} />
+          <BacktestDetails backtest={selectedBacktest} />
         ) : (
           <div className="text-center text-gray-500">Select a backtest to view details</div>
         )}
@@ -71,9 +69,7 @@ const BacktestInterface = () => {
   );
 };
 
-const BacktestDetails = ({ backtestId }) => {
-  const selectedBacktest = backtestRecords.find(record => record.id === backtestId);
-
+const BacktestDetails = ({ backtest }) => {
   return (
     <Tabs defaultValue="performance" className="w-full">
       <TabsList className="grid w-full grid-cols-5">
@@ -92,9 +88,9 @@ const BacktestDetails = ({ backtestId }) => {
             <div className="space-y-4">
               <div>
                 <h3 className="text-lg font-medium">Backtest Details</h3>
-                <p>Name: {selectedBacktest.name}</p>
-                <p>Date: {selectedBacktest.date}</p>
-                <p>Strategy: {selectedBacktest.strategy}</p>
+                <p>Name: {backtest.name}</p>
+                <p>Date: {backtest.date}</p>
+                <p>Strategy: {backtest.strategy}</p>
               </div>
               <div>
                 <h3 className="text-lg font-medium">Performance Metrics</h3>
@@ -112,7 +108,7 @@ const BacktestDetails = ({ backtestId }) => {
             <CardTitle>K-line Chart</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>K-line chart for {selectedBacktest.name} would be displayed here.</p>
+            <p>K-line chart for {backtest.name} would be displayed here.</p>
           </CardContent>
         </Card>
       </TabsContent>

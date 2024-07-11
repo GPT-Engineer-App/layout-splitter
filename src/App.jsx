@@ -30,7 +30,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Index />} />
-              <Route path="backtest" element={<BacktestInterface />} />
+              <Route path="backtest/:id" element={<BacktestInterface />} />
             </Route>
           </Routes>
         </Router>
