@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -25,7 +25,12 @@ const backtestRecords = [
 const BacktestInterface = () => {
   const { id } = useParams();
   const [isLeftPanelOpen, setIsLeftPanelOpen] = useState(true);
-  const selectedBacktest = backtestRecords.find(record => record.id === parseInt(id));
+  const [selectedBacktest, setSelectedBacktest] = useState(null);
+
+  useEffect(() => {
+    const backtest = backtestRecords.find(record => record.id === parseInt(id));
+    setSelectedBacktest(backtest);
+  }, [id]);
 
   const toggleLeftPanel = () => {
     setIsLeftPanelOpen(!isLeftPanelOpen);
