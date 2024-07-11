@@ -62,14 +62,14 @@ const BacktestInterface = () => {
             {isLeftPanelOpen ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
           </Button>
         </CollapsibleTrigger>
+        <CollapsibleContent className="flex-grow p-6">
+          {selectedBacktest ? (
+            <BacktestDetails backtest={selectedBacktest} />
+          ) : (
+            <div className="text-center text-gray-500">Select a backtest to view details</div>
+          )}
+        </CollapsibleContent>
       </Collapsible>
-      <CollapsibleContent className="flex-grow p-6">
-        {selectedBacktest ? (
-          <BacktestDetails backtest={selectedBacktest} />
-        ) : (
-          <div className="text-center text-gray-500">Select a backtest to view details</div>
-        )}
-      </CollapsibleContent>
     </div>
   );
 };
